@@ -9,14 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     let dinos = DinoDecodable()
-    @State var searchDino = ""
+    @State var searchValue = ""
+    @State var alphabetical = false
     var filteredDinos: [DinoModel] {
-        if searchDino.isEmpty {
-            return dinos.dinos
-        }
-        return dinos.dinos.filter { dino in
-            dino.name.localizedCaseInsensitiveContains(searchDino)
-        }
+        dinos.sortDinos(by: alphabetical)
+        return dinos.searchDinos(for: searchValue)
     }
     
     var body: some View {
@@ -47,9 +44,22 @@ struct ContentView: View {
                     }
                 }
             }.navigationTitle("Apex Predators")
-                .searchable(text: $searchDino)
+                .searchable(text: $searchValue)
                 .autocorrectionDisabled()
-                .animation(.default, value: searchDino)
+                .animation(.default, value: searchValue)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            withAnimation {
+                                alphabetical.toggle()
+                            }
+                        } label: {
+                            Image(systemName: alphabetical ? "film" : "textformat")
+                                .foregroundStyle(Color.purple.opacity(0.8))
+                                .symbolEffect(.bounce, value: alphabetical)
+                        }
+                    }
+                }
         }.preferredColorScheme(.dark)
     }
 }
