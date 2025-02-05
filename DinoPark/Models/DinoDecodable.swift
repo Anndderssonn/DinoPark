@@ -8,6 +8,7 @@
 import Foundation
 
 class DinoDecodable {
+    var allDinos: [DinoModel] = []
     var dinos: [DinoModel] = []
     
     init () {
@@ -20,7 +21,8 @@ class DinoDecodable {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                dinos = try decoder.decode([DinoModel].self, from: data)
+                allDinos = try decoder.decode([DinoModel].self, from: data)
+                dinos = allDinos
             } catch {
                 print("Error decoding JSON data: \(error)")
             }
@@ -43,6 +45,14 @@ class DinoDecodable {
             } else {
                 return dino1.id < dino2.id
             }
+        }
+    }
+    
+    func filterDinos(by type: DinoType) {
+        if type == .all {
+            dinos = allDinos
+        } else {
+            dinos = allDinos.filter { $0.type == type }
         }
     }
 }

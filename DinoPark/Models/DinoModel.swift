@@ -26,18 +26,31 @@ struct DinoModel: Decodable, Identifiable {
         let movie: String
         let sceneDescription: String
     }
+}
+
+enum DinoType: String, Decodable, CaseIterable, Identifiable {
+    case land
+    case air
+    case sea
+    case all
     
-    enum DinoType: String, Decodable {
-        case land
-        case air
-        case sea
-        
-        var backgroundColor: Color {
-            switch self {
-            case .land: return Color.brown
-            case .air: return Color.teal
-            case .sea: return Color.blue
-            }
+    var id: DinoType { self }
+    
+    var backgroundColor: Color {
+        switch self {
+        case .land: return Color.brown
+        case .air: return Color.teal
+        case .sea: return Color.blue
+        case .all: return Color.purple
+        }
+    }
+    
+    var icon: String {
+        switch self {
+        case .land: return "leaf.fill"
+        case .air: return "wind"
+        case .sea: return "drop.fill"
+        case .all: return "square.stack.3d.up.fill"
         }
     }
 }

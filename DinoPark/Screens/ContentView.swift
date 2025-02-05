@@ -11,7 +11,9 @@ struct ContentView: View {
     let dinos = DinoDecodable()
     @State var searchValue = ""
     @State var alphabetical = false
+    @State var typeSelected = DinoType.all
     var filteredDinos: [DinoModel] {
+        dinos.filterDinos(by: typeSelected)
         dinos.sortDinos(by: alphabetical)
         return dinos.searchDinos(for: searchValue)
     }
@@ -57,6 +59,18 @@ struct ContentView: View {
                             Image(systemName: alphabetical ? "film" : "textformat")
                                 .foregroundStyle(Color.purple.opacity(0.8))
                                 .symbolEffect(.bounce, value: alphabetical)
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Menu {
+                            Picker("Filter", selection: $typeSelected.animation()) {
+                                ForEach(DinoType.allCases) { type in
+                                    Label(type.rawValue.capitalized, systemImage: type.icon)
+                                }
+                            }
+                        } label : {
+                            Image(systemName: "slider.horizontal.3")
+                                .foregroundStyle(Color.purple.opacity(0.8))
                         }
                     }
                 }
