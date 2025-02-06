@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct DinoModel: Decodable, Identifiable {
     let id: Int
@@ -19,6 +20,10 @@ struct DinoModel: Decodable, Identifiable {
     
     var image: String {
         name.lowercased().replacingOccurrences(of: " ", with: "")
+    }
+    
+    var location: CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     
     struct MovieScene: Decodable, Identifiable {

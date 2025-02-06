@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct DinoDetail: View {
     let dino: DinoModel
+    @State var position: MapCameraPosition
     
     var body: some View {
         GeometryReader { geometry in
@@ -17,6 +19,9 @@ struct DinoDetail: View {
                     Image(dino.type.rawValue)
                         .resizable()
                         .scaledToFit()
+                        .overlay {
+                            LinearGradient(stops: [Gradient.Stop(color: .clear, location: 0.8), Gradient.Stop(color: .black, location: 1)], startPoint: .top, endPoint: .bottom)
+                        }
                     Image(dino.image)
                         .resizable()
                         .scaledToFit()
@@ -28,6 +33,35 @@ struct DinoDetail: View {
                 VStack(alignment: .leading) {
                     Text(dino.name)
                         .font(.largeTitle)
+                    NavigationLink {
+                        Image(dino.image)
+                            .resizable()
+                            .scaledToFit()
+                    } label: {
+                        Map(position: $position) {
+                            Annotation(dino.name, coordinate: dino.location) {
+                                Image(systemName: "mappin.and.ellipse")
+                                    .font(.largeTitle)
+                                    .symbolEffect(.breathe)
+                            }
+                            .annotationTitles(.hidden)
+                        }
+                        .frame(height: 125)
+                        .overlay(alignment: .trailing) {
+                            Image(systemName: "arrow.right.circle.fill")
+                                .imageScale(.large)
+                                .font(.title3)
+                                .padding(.trailing, 5)
+                        }
+                        .overlay(alignment: .topLeading) {
+                            Text("Current Location")
+                                .padding([.leading, .bottom], 5)
+                                .padding(.trailing, 8)
+                                .background(.black.opacity(0.35))
+                                .clipShape(.rect(bottomTrailingRadius: 5))
+                        }
+                        .clipShape(.rect(cornerRadius: 5))
+                    }
                     Text("Appears in:")
                         .font(.title3)
                         .padding(.top, 10)
@@ -58,10 +92,14 @@ struct DinoDetail: View {
             }
         }
         .ignoresSafeArea()
+        .toolbarBackground(.automatic)
     }
 }
 
 #Preview {
-    DinoDetail(dino: DinoDecodable().dinos[2])
-        .preferredColorScheme(.dark)
+    let dino = DinoDecodable().dinos[2]
+    NavigationStack {
+        DinoDetail(dino: dino, position: .camera(MapCamera(centerCoordinate: dino.location, distance: 30000)))
+            .preferredColorScheme(.dark)
+    }
 }
