@@ -11,6 +11,7 @@ import MapKit
 struct DinoDetail: View {
     let dino: DinoModel
     @State var position: MapCameraPosition
+    @Namespace var animation
     
     var body: some View {
         GeometryReader { geometry in
@@ -34,9 +35,8 @@ struct DinoDetail: View {
                     Text(dino.name)
                         .font(.largeTitle)
                     NavigationLink {
-                        Image(dino.image)
-                            .resizable()
-                            .scaledToFit()
+                        DinoMap(position: .camera(MapCamera(centerCoordinate: dino.location, distance: 1000, heading: 250, pitch: 80)))
+                            .navigationTransition(.zoom(sourceID: 1, in: animation))
                     } label: {
                         Map(position: $position) {
                             Annotation(dino.name, coordinate: dino.location) {
@@ -62,6 +62,7 @@ struct DinoDetail: View {
                         }
                         .clipShape(.rect(cornerRadius: 5))
                     }
+                    .matchedTransitionSource(id: 1, in: animation)
                     Text("Appears in:")
                         .font(.title3)
                         .padding(.top, 10)
