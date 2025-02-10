@@ -23,13 +23,19 @@ struct DinoDetail: View {
                         .overlay {
                             LinearGradient(stops: [Gradient.Stop(color: .clear, location: 0.8), Gradient.Stop(color: .black, location: 1)], startPoint: .top, endPoint: .bottom)
                         }
-                    Image(dino.image)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: geometry.size.width/1.5, height: geometry.size.height/3.7)
-                        .scaleEffect(x: -1)
-                        .shadow(color: .black, radius: 7)
-                        .offset(y: 20)
+                    NavigationLink {
+                        Image(dino.image)
+                            .resizable()
+                            .scaledToFit()
+                    } label: {
+                        Image(dino.image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: geometry.size.width/1.5, height: geometry.size.height/3.7)
+                            .scaleEffect(x: -1)
+                            .shadow(color: .black, radius: 7)
+                            .offset(y: 20)
+                    }
                 }
                 VStack(alignment: .leading) {
                     Text(dino.name)
