@@ -55,4 +55,12 @@ class DinoDecodable {
             dinos = allDinos.filter { $0.type == type }
         }
     }
+    
+    func filterDinos(by movie: DinoMovies) {
+        if movie == .all {
+            dinos = allDinos
+        } else {
+            dinos = allDinos.filter { $0.movies.contains(movie) }
+        }
+    }
 }

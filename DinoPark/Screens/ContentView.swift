@@ -13,8 +13,10 @@ struct ContentView: View {
     @State var searchValue = ""
     @State var alphabetical = false
     @State var typeSelected = DinoType.all
+    @State var movieSelected = DinoMovies.all
     var filteredDinos: [DinoModel] {
-        dinos.filterDinos(by: typeSelected)
+        dinos.filterDinos(by: movieSelected)
+//        dinos.filterDinos(by: typeSelected)
         dinos.sortDinos(by: alphabetical)
         return dinos.searchDinos(for: searchValue)
     }
@@ -69,6 +71,18 @@ struct ContentView: View {
                             }
                         } label : {
                             Image(systemName: "slider.horizontal.3")
+                                .foregroundStyle(Color.purple.opacity(0.8))
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Menu {
+                            Picker("Filter2", selection: $movieSelected.animation()) {
+                                ForEach(DinoMovies.allCases) { movie in
+                                    Label(movie.rawValue, systemImage: "film")
+                                }
+                            }
+                        } label : {
+                            Image(systemName: "line.3.horizontal.decrease.circle")
                                 .foregroundStyle(Color.purple.opacity(0.8))
                         }
                     }

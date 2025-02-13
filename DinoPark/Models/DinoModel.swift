@@ -14,7 +14,7 @@ struct DinoModel: Decodable, Identifiable {
     let type: DinoType
     let latitude: Double
     let longitude: Double
-    let movies: [String]
+    let movies: [DinoMovies]
     let movieScenes: [MovieScene]
     let link: String
     
@@ -58,4 +58,16 @@ enum DinoType: String, Decodable, CaseIterable, Identifiable {
         case .all: return "square.stack.3d.up.fill"
         }
     }
+}
+
+enum DinoMovies: String, Decodable, CaseIterable, Identifiable {
+    case movie1 = "Jurassic Park"
+    case movie2 = "The Lost World: Jurassic Park"
+    case movie3 = "Jurassic Park III"
+    case movie4 = "Jurassic World"
+    case movie5 = "Jurassic World: Fallen Kingdom"
+    case movie6 = "Jurassic World: Dominion"
+    case all = "All Movies"
+    
+    var id: DinoMovies { self }
 }
