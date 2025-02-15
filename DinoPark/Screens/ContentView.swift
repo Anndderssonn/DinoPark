@@ -15,8 +15,7 @@ struct ContentView: View {
     @State var typeSelected = DinoType.all
     @State var movieSelected = DinoMovies.all
     var filteredDinos: [DinoModel] {
-        dinos.filterDinos(by: movieSelected)
-//        dinos.filterDinos(by: typeSelected)
+        dinos.filterDinos(by: typeSelected, and: movieSelected)
         dinos.sortDinos(by: alphabetical)
         return dinos.searchDinos(for: searchValue)
     }

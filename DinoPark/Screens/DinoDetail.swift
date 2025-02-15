@@ -73,7 +73,7 @@ struct DinoDetail: View {
                         .font(.title3)
                         .padding(.top, 10)
                     ForEach(dino.movies, id: \.self) { movie in
-                        Text("🎬 \(movie)")
+                        Text("🎬 \(movie.rawValue)")
                             .font(.subheadline)
                     }
                     .padding(.top, 3)

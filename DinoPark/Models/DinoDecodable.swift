@@ -48,19 +48,24 @@ class DinoDecodable {
         }
     }
     
-    func filterDinos(by type: DinoType) {
+    func filterDinos(by type: DinoType, and movie: DinoMovies) {
+        let filteredByType = filterByType(type)
+        dinos = filterByMovie(movie, from: filteredByType)
+    }
+    
+    private func filterByType(_ type: DinoType) -> [DinoModel] {
         if type == .all {
-            dinos = allDinos
+            return allDinos
         } else {
-            dinos = allDinos.filter { $0.type == type }
+            return allDinos.filter { $0.type == type }
         }
     }
     
-    func filterDinos(by movie: DinoMovies) {
+    private func filterByMovie(_ movie: DinoMovies, from dinos: [DinoModel]) -> [DinoModel] {
         if movie == .all {
-            dinos = allDinos
+            return dinos
         } else {
-            dinos = allDinos.filter { $0.movies.contains(movie) }
+            return dinos.filter { $0.movies.contains(movie) }
         }
     }
 }
