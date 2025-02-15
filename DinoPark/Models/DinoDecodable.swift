@@ -48,6 +48,11 @@ class DinoDecodable {
         }
     }
     
+    func deleteDino(at offsetts: IndexSet) {
+        allDinos.remove(atOffsets: offsetts)
+        dinos = allDinos
+    }
+    
     func filterDinos(by type: DinoType, and movie: DinoMovies) {
         let filteredByType = filterByType(type)
         dinos = filterByMovie(movie, from: filteredByType)
